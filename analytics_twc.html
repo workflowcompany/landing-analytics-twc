@@ -1,0 +1,2224 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<meta name="description" content="Analytics TWC mide la adopción real de Notion en tu empresa, detecta equipos en riesgo y convierte datos de uso en acciones concretas." />
+	<title>Analytics TWC — Mide la adopción real de Notion</title>
+
+	<!-- Google Fonts: Montserrat para cuerpo. Chillax se declara como preferida si está instalada/local. -->
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+	<style>
+		/* =========================================================
+		   VARIABLES DE MARCA — THE WORKFLOW COMPANY
+		   ========================================================= */
+		:root {
+			--twc-red: #EF003C;
+			--twc-blue: #2700FF;
+			--twc-gray: #CACACA;
+			--twc-black: #08080C;
+			--twc-white: #FFFFFF;
+			--twc-off-white: #F8F7F4;
+			--twc-cream: #FFF8F0;
+			--twc-ink: #17171F;
+			--twc-muted: #666675;
+			--twc-border: rgba(8, 8, 12, 0.12);
+			--twc-red-soft: rgba(239, 0, 60, 0.08);
+			--twc-blue-soft: rgba(39, 0, 255, 0.08);
+			--twc-shadow: 0 24px 80px rgba(8, 8, 12, 0.16);
+			--twc-shadow-soft: 0 16px 50px rgba(8, 8, 12, 0.10);
+			--radius-xl: 32px;
+			--radius-lg: 24px;
+			--radius-md: 18px;
+			--radius-sm: 12px;
+			--container: 1180px;
+			--font-heading: "Chillax", "Montserrat", system-ui, sans-serif;
+			--font-body: "Montserrat", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+		}
+
+		/* =========================================================
+		   RESET Y BASE
+		   ========================================================= */
+		*,
+		*::before,
+		*::after {
+			box-sizing: border-box;
+		}
+
+		html {
+			scroll-behavior: smooth;
+		}
+
+		body {
+			margin: 0;
+			font-family: var(--font-body);
+			background:
+				radial-gradient(circle at top left, rgba(239, 0, 60, 0.10), transparent 32rem),
+				radial-gradient(circle at top right, rgba(39, 0, 255, 0.12), transparent 32rem),
+				var(--twc-off-white);
+			color: var(--twc-ink);
+			line-height: 1.5;
+			overflow-x: hidden;
+		}
+
+		body::selection {
+			background: var(--twc-red);
+			color: var(--twc-white);
+		}
+
+		img,
+		svg {
+			max-width: 100%;
+			display: block;
+		}
+
+		a {
+			color: inherit;
+			text-decoration: none;
+		}
+
+		button,
+		input,
+		textarea,
+		select {
+			font: inherit;
+		}
+
+		.container {
+			width: min(100% - 40px, var(--container));
+			margin-inline: auto;
+		}
+
+		.container-narrow {
+			width: min(100% - 40px, 900px);
+			margin-inline: auto;
+		}
+
+		.section {
+			padding: 88px 0;
+			position: relative;
+		}
+
+		.section-tight {
+			padding: 64px 0;
+		}
+
+		.eyebrow {
+			display: inline-flex;
+			align-items: center;
+			gap: 8px;
+			margin-bottom: 16px;
+			padding: 8px 12px;
+			border: 1px solid var(--twc-border);
+			border-radius: 999px;
+			background: rgba(255, 255, 255, 0.72);
+			backdrop-filter: blur(14px);
+			color: var(--twc-blue);
+			font-size: 0.78rem;
+			font-weight: 800;
+			letter-spacing: 0.08em;
+			text-transform: uppercase;
+		}
+
+		.eyebrow::before {
+			content: "";
+			width: 8px;
+			height: 8px;
+			border-radius: 999px;
+			background: var(--twc-red);
+			box-shadow: 0 0 0 6px rgba(239, 0, 60, 0.10);
+		}
+
+		.kicker {
+			color: var(--twc-muted);
+			font-size: 1rem;
+			font-weight: 600;
+		}
+
+				h1,
+				h2,
+				h3,
+				p {
+					margin-top: 0;
+				}
+
+				h1,
+				h2,
+				h3 {
+					font-family: var(--font-heading);
+					letter-spacing: -0.035em;
+					line-height: 1.06;
+					font-weight: 800;
+				}
+
+				h1 {
+					margin-bottom: 24px;
+					font-size: clamp(2.75rem, 6.8vw, 6.15rem);
+					font-weight: 800;
+					letter-spacing: -0.04em;
+					line-height: 1.03;
+				}
+
+				h2 {
+					margin-bottom: 18px;
+					font-size: clamp(2.05rem, 4.4vw, 4.25rem);
+					font-weight: 800;
+					line-height: 1.08;
+				}
+
+				h3 {
+					margin-bottom: 12px;
+					font-size: clamp(1.2rem, 1.8vw, 1.5rem);
+					font-weight: 700;
+					letter-spacing: -0.025em;
+					line-height: 1.14;
+				}
+
+				.lede {
+					max-width: 720px;
+					color: var(--twc-muted);
+					font-size: clamp(1.02rem, 1.55vw, 1.22rem);
+					font-weight: 500;
+					line-height: 1.62;
+				}
+
+				.lede strong {
+					color: var(--twc-ink);
+					font-weight: 700;
+				}
+
+		.text-red {
+			color: var(--twc-red);
+		}
+
+		.text-blue {
+			color: var(--twc-blue);
+		}
+
+		.section-title {
+			max-width: 820px;
+			margin-bottom: 44px;
+		}
+
+		.section-title.center {
+			margin-inline: auto;
+			text-align: center;
+		}
+
+		.section-title.center .lede {
+			margin-inline: auto;
+		}
+
+		/* =========================================================
+		   BOTONES Y CTAS
+		   ========================================================= */
+		.btn {
+			display: inline-flex;
+			align-items: center;
+			justify-content: center;
+			gap: 10px;
+			min-height: 52px;
+			padding: 15px 22px;
+			border: 2px solid transparent;
+			border-radius: 999px;
+			font-size: 0.95rem;
+			font-weight: 900;
+			letter-spacing: -0.02em;
+			cursor: pointer;
+			transition:
+				transform 180ms ease,
+				box-shadow 180ms ease,
+				background 180ms ease,
+				color 180ms ease,
+				border-color 180ms ease;
+		}
+
+		.btn:hover {
+			transform: translateY(-2px);
+		}
+
+		.btn-primary {
+			background: var(--twc-red);
+			color: var(--twc-white);
+			box-shadow: 0 16px 36px rgba(239, 0, 60, 0.28);
+		}
+
+		.btn-primary:hover {
+			background: #d90036;
+			box-shadow: 0 20px 48px rgba(239, 0, 60, 0.36);
+		}
+
+		.btn-secondary {
+			background: var(--twc-white);
+			color: var(--twc-ink);
+			border-color: var(--twc-border);
+			box-shadow: 0 12px 30px rgba(8, 8, 12, 0.08);
+		}
+
+		.btn-secondary:hover {
+			border-color: var(--twc-blue);
+			color: var(--twc-blue);
+		}
+
+		.btn-blue {
+			background: var(--twc-blue);
+			color: var(--twc-white);
+			box-shadow: 0 16px 36px rgba(39, 0, 255, 0.28);
+		}
+
+		.btn-blue:hover {
+			background: #1f00cc;
+			box-shadow: 0 20px 48px rgba(39, 0, 255, 0.36);
+		}
+
+		.btn-on-dark {
+			background: var(--twc-white);
+			color: var(--twc-blue);
+		}
+
+		.btn-on-dark:hover {
+			color: var(--twc-red);
+			box-shadow: 0 20px 48px rgba(255, 255, 255, 0.22);
+		}
+
+		.cta-row {
+			display: flex;
+			flex-wrap: wrap;
+			align-items: center;
+			gap: 14px;
+		}
+
+		.microcopy {
+			margin-top: 14px;
+			color: var(--twc-muted);
+			font-size: 0.88rem;
+			font-weight: 600;
+		}
+
+		/* =========================================================
+		   ANIMACIONES
+		   ========================================================= */
+		.reveal {
+			opacity: 0;
+			transform: translateY(24px);
+			animation: reveal 700ms ease forwards;
+		}
+
+		.reveal.delay-1 { animation-delay: 120ms; }
+		.reveal.delay-2 { animation-delay: 220ms; }
+		.reveal.delay-3 { animation-delay: 320ms; }
+
+		@keyframes reveal {
+			to {
+				opacity: 1;
+				transform: translateY(0);
+			}
+		}
+
+		.float {
+			animation: float 5s ease-in-out infinite;
+		}
+
+		@keyframes float {
+			0%, 100% { transform: translateY(0); }
+			50% { transform: translateY(-10px); }
+		}
+
+		.pulse-dot {
+			position: relative;
+		}
+
+		.pulse-dot::after {
+			content: "";
+			position: absolute;
+			inset: -8px;
+			border-radius: inherit;
+			border: 1px solid rgba(239, 0, 60, 0.35);
+			animation: pulse 1.8s ease-out infinite;
+		}
+
+		@keyframes pulse {
+			0% { opacity: 0.8; transform: scale(0.85); }
+			100% { opacity: 0; transform: scale(1.5); }
+		}
+
+		/* =========================================================
+		   HEADER / NAVBAR
+		   ========================================================= */
+		.site-header {
+			position: sticky;
+			top: 0;
+			z-index: 50;
+			border-bottom: 1px solid rgba(8, 8, 12, 0.08);
+			background: rgba(248, 247, 244, 0.82);
+			backdrop-filter: blur(18px);
+		}
+
+		.nav {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			min-height: 76px;
+			gap: 24px;
+		}
+
+		.logo {
+			display: inline-flex;
+			align-items: center;
+			gap: 10px;
+			font-weight: 900;
+			letter-spacing: -0.04em;
+		}
+
+		.logo-mark {
+			display: grid;
+			place-items: center;
+			width: 38px;
+			height: 38px;
+			border-radius: 13px;
+			background: var(--twc-red);
+			color: var(--twc-white);
+			font-weight: 900;
+			box-shadow: 0 12px 30px rgba(239, 0, 60, 0.28);
+		}
+
+		.logo-text {
+			display: flex;
+			flex-direction: column;
+			line-height: 1;
+		}
+
+		.logo-text span:first-child {
+			color: var(--twc-ink);
+			font-size: 0.94rem;
+		}
+
+		.logo-text span:last-child {
+			color: var(--twc-blue);
+			font-size: 0.76rem;
+			letter-spacing: 0.02em;
+		}
+
+		.nav-links {
+			display: none;
+			align-items: center;
+			gap: 24px;
+			color: var(--twc-muted);
+			font-size: 0.9rem;
+			font-weight: 800;
+		}
+
+		.nav-links a {
+			transition: color 180ms ease;
+		}
+
+		.nav-links a:hover {
+			color: var(--twc-red);
+		}
+
+		.nav-cta {
+			display: none;
+		}
+
+		/* =========================================================
+		   HERO
+		   ========================================================= */
+		.hero {
+			position: relative;
+			padding: 72px 0 88px;
+			overflow: hidden;
+		}
+
+		.hero::before {
+			content: "";
+			position: absolute;
+			top: 8%;
+			left: -12%;
+			width: 42vw;
+			height: 42vw;
+			border-radius: 50%;
+			background: rgba(239, 0, 60, 0.10);
+			filter: blur(20px);
+			pointer-events: none;
+		}
+
+		.hero::after {
+			content: "";
+			position: absolute;
+			right: -10%;
+			bottom: 4%;
+			width: 44vw;
+			height: 44vw;
+			border-radius: 50%;
+			background: rgba(39, 0, 255, 0.11);
+			filter: blur(20px);
+			pointer-events: none;
+		}
+
+		.hero-grid {
+			position: relative;
+			z-index: 2;
+			display: grid;
+			grid-template-columns: 1fr;
+			gap: 44px;
+			align-items: center;
+		}
+
+		.hero-copy {
+			max-width: 760px;
+		}
+
+		.hero h1 span {
+			display: inline-block;
+			color: var(--twc-red);
+		}
+
+		.hero-proof {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 10px;
+			margin-top: 24px;
+		}
+
+		.proof-chip {
+			display: inline-flex;
+			align-items: center;
+			gap: 8px;
+			padding: 9px 12px;
+			border: 1px solid var(--twc-border);
+			border-radius: 999px;
+			background: rgba(255, 255, 255, 0.74);
+			color: var(--twc-muted);
+			font-size: 0.82rem;
+			font-weight: 800;
+		}
+
+		.proof-chip strong {
+			color: var(--twc-ink);
+		}
+
+		.hero-visual {
+			position: relative;
+		}
+
+		.dashboard-card {
+			position: relative;
+			border: 1px solid rgba(255, 255, 255, 0.55);
+			border-radius: var(--radius-xl);
+			background:
+				linear-gradient(145deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.78)),
+				radial-gradient(circle at top right, rgba(39, 0, 255, 0.18), transparent 22rem);
+			box-shadow: var(--twc-shadow);
+			overflow: hidden;
+		}
+
+		.dashboard-topbar {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			padding: 18px 18px 0;
+		}
+
+		.window-dots {
+			display: flex;
+			gap: 7px;
+		}
+
+		.window-dots span {
+			width: 11px;
+			height: 11px;
+			border-radius: 50%;
+			background: var(--twc-gray);
+		}
+
+		.window-dots span:nth-child(1) { background: var(--twc-red); }
+		.window-dots span:nth-child(2) { background: #FFBE0B; }
+		.window-dots span:nth-child(3) { background: #26D07C; }
+
+		.dashboard-label {
+			padding: 7px 10px;
+			border-radius: 999px;
+			background: var(--twc-blue-soft);
+			color: var(--twc-blue);
+			font-size: 0.72rem;
+			font-weight: 900;
+			text-transform: uppercase;
+			letter-spacing: 0.06em;
+		}
+
+		.dashboard-content {
+			padding: 22px;
+		}
+
+		.score-panel {
+			display: grid;
+			grid-template-columns: 1fr;
+			gap: 18px;
+			padding: 22px;
+			border-radius: 26px;
+			background: var(--twc-blue);
+			color: var(--twc-white);
+			overflow: hidden;
+			position: relative;
+		}
+
+		.score-panel::after {
+			content: "";
+			position: absolute;
+			right: -72px;
+			top: -72px;
+			width: 180px;
+			height: 180px;
+			border-radius: 50%;
+			background: rgba(255, 255, 255, 0.12);
+		}
+
+		.score-meta {
+			position: relative;
+			z-index: 2;
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			gap: 12px;
+		}
+
+		.score-meta span {
+			font-size: 0.78rem;
+			font-weight: 800;
+			opacity: 0.86;
+		}
+
+		.score-number {
+		position: relative;
+		z-index: 2;
+		display: flex;
+		align-items: end;
+		gap: 6px;
+		font-family: var(--font-heading);
+		font-size: clamp(3.4rem, 7vw, 5.2rem);
+		font-weight: 800;
+		letter-spacing: -0.045em;
+		line-height: 0.95;
+	}
+
+	.score-number small {
+		margin-bottom: 8px;
+		font-size: 0.95rem;
+		font-weight: 700;
+		letter-spacing: -0.02em;
+		opacity: 0.75;
+	}	
+
+		.score-status {
+			position: relative;
+			z-index: 2;
+			display: flex;
+			flex-wrap: wrap;
+			align-items: center;
+			gap: 10px;
+		}
+
+		.status-badge {
+			display: inline-flex;
+			align-items: center;
+			gap: 7px;
+			padding: 8px 10px;
+			border-radius: 999px;
+			background: rgba(255, 255, 255, 0.16);
+			font-size: 0.82rem;
+			font-weight: 900;
+		}
+
+		.status-dot {
+			width: 9px;
+			height: 9px;
+			border-radius: 50%;
+			background: #26D07C;
+		}
+
+		.metric-grid {
+			display: grid;
+			grid-template-columns: 1fr;
+			gap: 12px;
+			margin-top: 14px;
+		}
+
+		.metric-card {
+			padding: 16px;
+			border: 1px solid var(--twc-border);
+			border-radius: 20px;
+			background: rgba(255, 255, 255, 0.78);
+		}
+
+		.metric-head {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			gap: 10px;
+			margin-bottom: 10px;
+			font-size: 0.84rem;
+			font-weight: 900;
+		}
+
+		.metric-value {
+			color: var(--twc-blue);
+			font-weight: 900;
+		}
+
+		.progress {
+			width: 100%;
+			height: 9px;
+			border-radius: 999px;
+			background: rgba(8, 8, 12, 0.08);
+			overflow: hidden;
+		}
+
+		.progress span {
+			display: block;
+			height: 100%;
+			border-radius: inherit;
+			background: linear-gradient(90deg, var(--twc-red), var(--twc-blue));
+		}
+
+		.insight-card {
+			margin-top: 14px;
+			padding: 18px;
+			border-radius: 22px;
+			background: var(--twc-red-soft);
+			border: 1px solid rgba(239, 0, 60, 0.18);
+		}
+
+		.insight-card strong {
+			display: block;
+			margin-bottom: 5px;
+			color: var(--twc-red);
+			font-weight: 900;
+		}
+
+		.insight-card p {
+			margin: 0;
+			color: var(--twc-muted);
+			font-size: 0.9rem;
+			font-weight: 600;
+		}
+
+		.floating-alert {
+			position: absolute;
+			right: -8px;
+			bottom: -22px;
+			width: min(320px, 84%);
+			padding: 16px;
+			border: 1px solid rgba(239, 0, 60, 0.18);
+			border-radius: 22px;
+			background: var(--twc-white);
+			box-shadow: var(--twc-shadow-soft);
+		}
+
+		.floating-alert strong {
+			display: block;
+			margin-bottom: 4px;
+			color: var(--twc-red);
+			font-size: 0.9rem;
+			font-weight: 900;
+		}
+
+		.floating-alert p {
+			margin: 0;
+			color: var(--twc-muted);
+			font-size: 0.82rem;
+			font-weight: 600;
+		}
+
+		/* =========================================================
+		   PROBLEMA
+		   ========================================================= */
+		.problem-band {
+			background: var(--twc-ink);
+			color: var(--twc-white);
+			overflow: hidden;
+		}
+
+		.problem-band .lede,
+		.problem-band .kicker {
+			color: rgba(255, 255, 255, 0.72);
+		}
+
+		.problem-band .eyebrow {
+			background: rgba(255, 255, 255, 0.08);
+			border-color: rgba(255, 255, 255, 0.16);
+			color: var(--twc-white);
+		}
+
+		.problem-grid {
+			display: grid;
+			grid-template-columns: 1fr;
+			gap: 18px;
+		}
+
+		.problem-card {
+			padding: 24px;
+			border: 1px solid rgba(255, 255, 255, 0.12);
+			border-radius: var(--radius-lg);
+			background: rgba(255, 255, 255, 0.06);
+			transition: transform 180ms ease, background 180ms ease;
+		}
+
+		.problem-card:hover {
+			transform: translateY(-4px);
+			background: rgba(255, 255, 255, 0.09);
+		}
+
+		.problem-card .icon {
+			display: grid;
+			place-items: center;
+			width: 46px;
+			height: 46px;
+			margin-bottom: 18px;
+			border-radius: 16px;
+			background: var(--twc-red);
+			font-size: 1.3rem;
+		}
+
+		.problem-card p {
+			margin: 0;
+			color: rgba(255, 255, 255, 0.70);
+			font-weight: 500;
+		}
+
+		/* =========================================================
+		   PROPUESTA DE VALOR
+		   ========================================================= */
+		.value-grid {
+			display: grid;
+			grid-template-columns: 1fr;
+			gap: 18px;
+		}
+
+		.value-card {
+			position: relative;
+			min-height: 260px;
+			padding: 26px;
+			border: 1px solid var(--twc-border);
+			border-radius: var(--radius-lg);
+			background: rgba(255, 255, 255, 0.72);
+			box-shadow: 0 10px 34px rgba(8, 8, 12, 0.06);
+			overflow: hidden;
+			transition: transform 180ms ease, box-shadow 180ms ease;
+		}
+
+		.value-card:hover {
+			transform: translateY(-5px);
+			box-shadow: var(--twc-shadow-soft);
+		}
+
+		.value-card::after {
+			content: attr(data-number);
+			position: absolute;
+			right: 18px;
+			bottom: -18px;
+			color: rgba(39, 0, 255, 0.08);
+			font-family: var(--font-heading);
+			font-size: 7rem;
+			font-weight: 900;
+			line-height: 1;
+		}
+
+		.value-icon {
+			display: grid;
+			place-items: center;
+			width: 52px;
+			height: 52px;
+			margin-bottom: 22px;
+			border-radius: 18px;
+			background: var(--twc-blue);
+			color: var(--twc-white);
+			font-size: 1.35rem;
+		}
+
+		.value-card:nth-child(even) .value-icon {
+			background: var(--twc-red);
+		}
+
+		.value-card p {
+			position: relative;
+			z-index: 2;
+			margin: 0;
+			color: var(--twc-muted);
+			font-weight: 600;
+		}
+
+		/* =========================================================
+		   FEATURES
+		   ========================================================= */
+		.features {
+			background:
+				linear-gradient(180deg, rgba(255, 255, 255, 0.58), rgba(255, 255, 255, 0.28)),
+				var(--twc-cream);
+		}
+
+		.feature-grid {
+			display: grid;
+			grid-template-columns: 1fr;
+			gap: 16px;
+		}
+
+		.feature-card {
+			display: flex;
+			gap: 16px;
+			padding: 22px;
+			border: 1px solid var(--twc-border);
+			border-radius: var(--radius-md);
+			background: rgba(255, 255, 255, 0.80);
+			transition: transform 180ms ease, border-color 180ms ease;
+		}
+
+		.feature-card:hover {
+			transform: translateY(-3px);
+			border-color: rgba(39, 0, 255, 0.26);
+		}
+
+		.feature-icon {
+			flex: 0 0 auto;
+			display: grid;
+			place-items: center;
+			width: 46px;
+			height: 46px;
+			border-radius: 16px;
+			background: var(--twc-red-soft);
+			font-size: 1.25rem;
+		}
+
+		.feature-card:nth-child(2n) .feature-icon {
+			background: var(--twc-blue-soft);
+		}
+
+		.feature-card p {
+			margin: 0;
+			color: var(--twc-muted);
+			font-size: 0.95rem;
+			font-weight: 600;
+		}
+
+		/* =========================================================
+		   BENEFICIOS CUANTIFICABLES
+		   ========================================================= */
+		.stats-grid {
+			display: grid;
+			grid-template-columns: 1fr;
+			gap: 16px;
+		}
+
+		.stat-card {
+			padding: 28px;
+			border-radius: var(--radius-lg);
+			background: var(--twc-white);
+			border: 1px solid var(--twc-border);
+			box-shadow: 0 10px 36px rgba(8, 8, 12, 0.06);
+		}
+
+		.stat-number {
+	margin-bottom: 10px;
+	color: var(--twc-red);
+	font-family: var(--font-heading);
+	font-size: clamp(2.5rem, 5vw, 4.1rem);
+	font-weight: 800;
+	letter-spacing: -0.045em;
+	line-height: 0.95;
+		}
+
+		.stat-card:nth-child(even) .stat-number {
+			color: var(--twc-blue);
+		}
+
+		.stat-card p {
+			margin: 0;
+			color: var(--twc-muted);
+			font-weight: 700;
+		}
+
+		/* =========================================================
+		   CÓMO FUNCIONA
+		   ========================================================= */
+		.steps-wrap {
+			position: relative;
+		}
+
+		.steps-grid {
+			display: grid;
+			grid-template-columns: 1fr;
+			gap: 18px;
+			counter-reset: steps;
+		}
+
+		.step-card {
+			position: relative;
+			padding: 28px;
+			border-radius: var(--radius-lg);
+			background: var(--twc-white);
+			border: 1px solid var(--twc-border);
+			box-shadow: 0 10px 34px rgba(8, 8, 12, 0.06);
+		}
+
+		.step-number {
+			display: inline-flex;
+			align-items: center;
+			justify-content: center;
+			width: 44px;
+			height: 44px;
+			margin-bottom: 22px;
+			border-radius: 50%;
+			background: var(--twc-ink);
+			color: var(--twc-white);
+			font-weight: 900;
+		}
+
+		.step-card:nth-child(2) .step-number {
+			background: var(--twc-red);
+		}
+
+		.step-card:nth-child(3) .step-number {
+			background: var(--twc-blue);
+		}
+
+		.step-card:nth-child(4) .step-number {
+			background: var(--twc-gray);
+			color: var(--twc-ink);
+		}
+
+		.step-card p {
+			margin: 0;
+			color: var(--twc-muted);
+			font-weight: 600;
+		}
+
+		/* =========================================================
+		   CASOS DE USO / SOCIAL PROOF
+		   ========================================================= */
+		.use-case-grid {
+			display: grid;
+			grid-template-columns: 1fr;
+			gap: 18px;
+		}
+
+		.use-case-card {
+			padding: 26px;
+			border-radius: var(--radius-lg);
+			background: var(--twc-ink);
+			color: var(--twc-white);
+			overflow: hidden;
+			position: relative;
+		}
+
+		.use-case-card::after {
+			content: "";
+			position: absolute;
+			right: -50px;
+			bottom: -50px;
+			width: 150px;
+			height: 150px;
+			border-radius: 50%;
+			background: rgba(255, 255, 255, 0.08);
+		}
+
+		.use-case-tag {
+			display: inline-flex;
+			margin-bottom: 18px;
+			padding: 7px 10px;
+			border-radius: 999px;
+			background: rgba(255, 255, 255, 0.12);
+			color: rgba(255, 255, 255, 0.82);
+			font-size: 0.72rem;
+			font-weight: 900;
+			text-transform: uppercase;
+			letter-spacing: 0.06em;
+		}
+
+		.use-case-card p {
+			position: relative;
+			z-index: 2;
+			margin: 0;
+			color: rgba(255, 255, 255, 0.72);
+			font-weight: 600;
+		}
+
+		.quote-card {
+			grid-column: 1 / -1;
+			padding: 32px;
+			border: 1px solid rgba(39, 0, 255, 0.18);
+			border-radius: var(--radius-xl);
+			background:
+				radial-gradient(circle at top right, rgba(39, 0, 255, 0.12), transparent 24rem),
+				var(--twc-white);
+			box-shadow: var(--twc-shadow-soft);
+		}
+
+		.quote-card blockquote {
+			margin: 0 0 20px;
+			font-family: var(--font-heading);
+			font-size: clamp(1.8rem, 4vw, 3.4rem);
+			font-weight: 900;
+			letter-spacing: -0.055em;
+			line-height: 1;
+		}
+
+		.quote-card cite {
+			display: block;
+			color: var(--twc-muted);
+			font-style: normal;
+			font-weight: 800;
+		}
+
+		/* =========================================================
+		   PAQUETES / PRICING SIN PRECIO
+		   ========================================================= */
+		.pricing {
+			background: var(--twc-white);
+		}
+
+		.package-grid {
+			display: grid;
+			grid-template-columns: 1fr;
+			gap: 18px;
+		}
+
+		.package-card {
+			position: relative;
+			display: flex;
+			flex-direction: column;
+			padding: 28px;
+			border: 1px solid var(--twc-border);
+			border-radius: var(--radius-xl);
+			background: var(--twc-off-white);
+			box-shadow: 0 12px 36px rgba(8, 8, 12, 0.06);
+		}
+
+		.package-card.featured {
+			background: var(--twc-blue);
+			color: var(--twc-white);
+			transform: none;
+			box-shadow: 0 24px 70px rgba(39, 0, 255, 0.28);
+		}
+
+		.package-badge {
+			align-self: flex-start;
+			margin-bottom: 18px;
+			padding: 8px 11px;
+			border-radius: 999px;
+			background: var(--twc-red);
+			color: var(--twc-white);
+			font-size: 0.72rem;
+			font-weight: 900;
+			text-transform: uppercase;
+			letter-spacing: 0.06em;
+		}
+
+		.package-card.featured .package-badge {
+			background: var(--twc-white);
+			color: var(--twc-blue);
+		}
+
+		.package-card p {
+			color: var(--twc-muted);
+			font-weight: 600;
+		}
+
+		.package-card.featured p {
+			color: rgba(255, 255, 255, 0.76);
+		}
+
+		.package-list {
+			display: grid;
+			gap: 12px;
+			margin: 24px 0 28px;
+			padding: 0;
+			list-style: none;
+		}
+
+		.package-list li {
+			display: flex;
+			gap: 10px;
+			color: var(--twc-muted);
+			font-size: 0.94rem;
+			font-weight: 700;
+		}
+
+		.package-card.featured .package-list li {
+			color: rgba(255, 255, 255, 0.82);
+		}
+
+		.package-list li::before {
+			content: "✓";
+			display: inline-grid;
+			place-items: center;
+			flex: 0 0 auto;
+			width: 20px;
+			height: 20px;
+			border-radius: 50%;
+			background: var(--twc-red);
+			color: var(--twc-white);
+			font-size: 0.72rem;
+			font-weight: 900;
+		}
+
+		.package-card.featured .package-list li::before {
+			background: var(--twc-white);
+			color: var(--twc-blue);
+		}
+
+		.package-card .btn {
+			margin-top: auto;
+		}
+
+		/* =========================================================
+		   FAQ
+		   ========================================================= */
+		.faq-list {
+			display: grid;
+			gap: 14px;
+		}
+
+		details.faq-item {
+			border: 1px solid var(--twc-border);
+			border-radius: 20px;
+			background: rgba(255, 255, 255, 0.76);
+			overflow: hidden;
+		}
+
+		.faq-item summary {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			gap: 18px;
+			padding: 20px 22px;
+			cursor: pointer;
+			font-weight: 900;
+			list-style: none;
+		}
+
+		.faq-item summary::-webkit-details-marker {
+			display: none;
+		}
+
+		.faq-item summary::after {
+			content: "+";
+			display: grid;
+			place-items: center;
+			flex: 0 0 auto;
+			width: 30px;
+			height: 30px;
+			border-radius: 50%;
+			background: var(--twc-blue-soft);
+			color: var(--twc-blue);
+			font-size: 1.15rem;
+			font-weight: 900;
+			transition: transform 180ms ease;
+		}
+
+		.faq-item[open] summary::after {
+			transform: rotate(45deg);
+			background: var(--twc-red-soft);
+			color: var(--twc-red);
+		}
+
+		.faq-item p {
+			margin: 0;
+			padding: 0 22px 22px;
+			color: var(--twc-muted);
+			font-weight: 600;
+		}
+
+		/* =========================================================
+		   CTA FINAL
+		   ========================================================= */
+		.final-cta {
+			position: relative;
+			padding: 88px 0;
+			background: var(--twc-red);
+			color: var(--twc-white);
+			overflow: hidden;
+		}
+
+		.final-cta::before {
+			content: "";
+			position: absolute;
+			inset: auto -10% -40% auto;
+			width: 56vw;
+			height: 56vw;
+			border-radius: 50%;
+			background: rgba(39, 0, 255, 0.40);
+		}
+
+		.final-cta::after {
+			content: "";
+			position: absolute;
+			top: -20%;
+			left: -10%;
+			width: 38vw;
+			height: 38vw;
+			border-radius: 50%;
+			background: rgba(255, 255, 255, 0.12);
+		}
+
+		.final-cta-inner {
+			position: relative;
+			z-index: 2;
+			max-width: 860px;
+		}
+
+		.final-cta h2 {
+			margin-bottom: 18px;
+		}
+
+		.final-cta p {
+			max-width: 660px;
+			color: rgba(255, 255, 255, 0.82);
+			font-size: 1.15rem;
+			font-weight: 600;
+		}
+
+		/* =========================================================
+		   FOOTER
+		   ========================================================= */
+		.site-footer {
+			padding: 56px 0 34px;
+			background: var(--twc-ink);
+			color: var(--twc-white);
+		}
+
+		.footer-grid {
+			display: grid;
+			grid-template-columns: 1fr;
+			gap: 32px;
+			margin-bottom: 36px;
+		}
+
+		.footer-brand p {
+			max-width: 420px;
+			color: rgba(255, 255, 255, 0.62);
+			font-weight: 600;
+		}
+
+		.footer-links {
+			display: grid;
+			grid-template-columns: 1fr 1fr;
+			gap: 24px;
+		}
+
+		.footer-col h4 {
+			margin: 0 0 14px;
+			color: var(--twc-white);
+			font-size: 0.9rem;
+			font-weight: 900;
+			text-transform: uppercase;
+			letter-spacing: 0.07em;
+		}
+
+		.footer-col ul {
+			display: grid;
+			gap: 10px;
+			margin: 0;
+			padding: 0;
+			list-style: none;
+		}
+
+		.footer-col a {
+			color: rgba(255, 255, 255, 0.62);
+			font-size: 0.92rem;
+			font-weight: 700;
+			transition: color 180ms ease;
+		}
+
+		.footer-col a:hover {
+			color: var(--twc-white);
+		}
+
+		.footer-bottom {
+			display: flex;
+			flex-wrap: wrap;
+			justify-content: space-between;
+			gap: 12px;
+			padding-top: 24px;
+			border-top: 1px solid rgba(255, 255, 255, 0.12);
+			color: rgba(255, 255, 255, 0.54);
+			font-size: 0.86rem;
+			font-weight: 700;
+		}
+
+		/* =========================================================
+   AJUSTES DE LEGIBILIDAD GLOBAL
+   ========================================================= */
+
+		.eyebrow {
+			font-weight: 700;
+			letter-spacing: 0.075em;
+		}
+
+		.btn {
+			font-weight: 800;
+		}
+
+		.logo {
+			font-weight: 800;
+		}
+
+		.proof-chip {
+			font-weight: 700;
+		}
+
+		.proof-chip strong {
+			font-weight: 800;
+		}
+
+		.metric-head {
+			font-weight: 700;
+		}
+
+		.metric-value {
+			font-weight: 800;
+		}
+
+		.insight-card strong {
+			font-weight: 800;
+		}
+
+		.status-badge {
+			font-weight: 700;
+		}
+
+		.problem-card h3,
+		.value-card h3,
+		.feature-card h3,
+		.step-card h3,
+		.use-case-card h3,
+		.package-card h3 {
+			font-weight: 700;
+		}
+
+		.problem-card p,
+		.value-card p,
+		.feature-card p,
+		.step-card p,
+		.use-case-card p,
+		.package-card p,
+		.stat-card p,
+		.faq-item p {
+			font-weight: 500;
+			line-height: 1.6;
+		}
+
+		/* =========================================================
+		   RESPONSIVE
+		   ========================================================= */
+		@media (min-width: 640px) {
+			.metric-grid,
+			.stats-grid,
+			.feature-grid {
+				grid-template-columns: repeat(2, 1fr);
+			}
+
+			.problem-grid,
+			.value-grid,
+			.steps-grid,
+			.use-case-grid,
+			.package-grid {
+				grid-template-columns: repeat(2, 1fr);
+			}
+		}
+
+		@media (min-width: 900px) {
+			.nav-links,
+			.nav-cta {
+				display: flex;
+			}
+
+			.hero {
+				padding: 104px 0 120px;
+			}
+
+			.hero-grid {
+				grid-template-columns: minmax(0, 1.02fr) minmax(420px, 0.88fr);
+				gap: 56px;
+			}
+
+			.score-panel {
+				grid-template-columns: 0.9fr 1.1fr;
+				align-items: center;
+			}
+
+			.metric-grid {
+				grid-template-columns: repeat(2, 1fr);
+			}
+
+			.problem-grid,
+			.value-grid,
+			.steps-grid,
+			.package-grid {
+				grid-template-columns: repeat(3, 1fr);
+			}
+
+			.feature-grid {
+				grid-template-columns: repeat(3, 1fr);
+			}
+
+			.stats-grid,
+			.use-case-grid {
+				grid-template-columns: repeat(4, 1fr);
+			}
+
+			.quote-card {
+				grid-column: span 2;
+			}
+
+			.package-card.featured {
+				transform: translateY(-14px);
+			}
+
+			.footer-grid {
+				grid-template-columns: 1.1fr 1fr;
+			}
+
+			.footer-links {
+				grid-template-columns: repeat(3, 1fr);
+			}
+		}
+
+		@media (max-width: 480px) {
+			.container,
+			.container-narrow {
+				width: min(100% - 28px, var(--container));
+			}
+
+			.section {
+				padding: 68px 0;
+			}
+
+			.hero {
+				padding: 52px 0 84px;
+			}
+
+			.btn {
+				width: 100%;
+			}
+
+			.cta-row {
+				width: 100%;
+			}
+
+			.floating-alert {
+				position: relative;
+				right: auto;
+				bottom: auto;
+				width: 100%;
+				margin-top: 14px;
+			}
+		}
+
+		@media (prefers-reduced-motion: reduce) {
+			*,
+			*::before,
+			*::after {
+				scroll-behavior: auto !important;
+				animation-duration: 0.01ms !important;
+				animation-iteration-count: 1 !important;
+				transition-duration: 0.01ms !important;
+			}
+		}
+	</style>
+</head>
+
+<body>
+	<!-- =========================================================
+	     HEADER / NAVBAR
+	     ========================================================= -->
+	<header class="site-header" aria-label="Navegación principal">
+		<div class="container">
+			<nav class="nav">
+				<a class="logo" href="#top" aria-label="Analytics TWC - inicio">
+					<span class="logo-mark" aria-hidden="true">W</span>
+					<span class="logo-text">
+						<span>Analytics TWC</span>
+						<span>The Workflow Company</span>
+					</span>
+				</a>
+
+				<div class="nav-links" aria-label="Secciones de la página">
+					<a href="#problema">Problema</a>
+					<a href="#producto">Producto</a>
+					<a href="#como-funciona">Cómo funciona</a>
+					<a href="#paquetes">Paquetes</a>
+					<a href="#faq">FAQ</a>
+				</div>
+
+				<div class="nav-cta">
+					<a class="btn btn-primary" href="mailto:hola@workflowcompany.co?subject=Quiero%20medir%20mi%20adopci%C3%B3n%20de%20Notion">
+						Quiero medir mi adopción
+					</a>
+				</div>
+			</nav>
+		</div>
+	</header>
+
+	<main id="top">
+		<!-- =========================================================
+		     HERO SECTION
+		     ========================================================= -->
+		<section class="hero" aria-labelledby="hero-title">
+			<div class="container">
+				<div class="hero-grid">
+					<div class="hero-copy reveal">
+						<div class="eyebrow">Analytics para empresas que ya usan Notion</div>
+
+						<h1 id="hero-title">
+							Tu equipo dice que usa Notion.
+							<span>La data dice la verdad.</span>
+						</h1>
+
+						<p class="lede">
+							<strong>Analytics TWC</strong> mide la adopción real de tu workspace, detecta equipos en riesgo y convierte el uso de Notion en decisiones claras de capacitación, ROI y renovación.
+						</p>
+
+						<div class="cta-row" aria-label="Acciones principales">
+							<a class="btn btn-primary" href="mailto:hola@workflowcompany.co?subject=Quiero%20medir%20mi%20adopci%C3%B3n%20de%20Notion">
+								Quiero medir mi adopción
+								<span aria-hidden="true">→</span>
+							</a>
+							<a class="btn btn-secondary" href="#como-funciona">
+								Ver cómo funciona
+							</a>
+						</div>
+
+						<p class="microcopy">
+							Diagnóstico claro · Metadata de uso · Recomendaciones accionables · Sin leer contenido privado
+						</p>
+
+						<div class="hero-proof" aria-label="Pruebas de valor">
+							<span class="proof-chip"><strong>30%</strong> de licencias SaaS no se usan</span>
+							<span class="proof-chip"><strong>90 días</strong> para validar adopción real</span>
+							<span class="proof-chip"><strong>ROI</strong> visible para líderes</span>
+						</div>
+					</div>
+
+					<div class="hero-visual reveal delay-2" aria-label="Mockup del dashboard de Analytics TWC">
+						<article class="dashboard-card float">
+							<div class="dashboard-topbar">
+								<div class="window-dots" aria-hidden="true">
+									<span></span>
+									<span></span>
+									<span></span>
+								</div>
+								<div class="dashboard-label">Reporte semanal</div>
+							</div>
+
+							<div class="dashboard-content">
+								<div class="score-panel">
+									<div>
+										<div class="score-meta">
+											<span>TWC Adoption Score</span>
+											<span>Semana actual</span>
+										</div>
+										<div class="score-number">
+											64 <small>/100</small>
+										</div>
+										<div class="score-status">
+											<span class="status-badge">
+												<span class="status-dot pulse-dot" aria-hidden="true"></span>
+												Buena, con riesgo
+											</span>
+											<span class="status-badge">+8% vs semana anterior</span>
+										</div>
+									</div>
+
+									<div>
+										<div class="metric-card">
+											<div class="metric-head">
+												<span>Alcance</span>
+												<span class="metric-value">67%</span>
+											</div>
+											<div class="progress" aria-label="Alcance 67%">
+												<span style="width: 67%;"></span>
+											</div>
+										</div>
+
+										<div class="metric-card">
+											<div class="metric-head">
+												<span>Profundidad</span>
+												<span class="metric-value">58%</span>
+											</div>
+											<div class="progress" aria-label="Profundidad 58%">
+												<span style="width: 58%;"></span>
+											</div>
+										</div>
+									</div>
+								</div>
+
+								<div class="metric-grid">
+									<div class="metric-card">
+										<div class="metric-head">
+											<span>Consistencia</span>
+											<span class="metric-value">65%</span>
+										</div>
+										<div class="progress" aria-label="Consistencia 65%">
+											<span style="width: 65%;"></span>
+										</div>
+									</div>
+
+									<div class="metric-card">
+										<div class="metric-head">
+											<span>Colaboración</span>
+											<span class="metric-value">42%</span>
+										</div>
+										<div class="progress" aria-label="Colaboración 42%">
+											<span style="width: 42%;"></span>
+										</div>
+									</div>
+								</div>
+
+								<div class="insight-card">
+									<strong>Insight recomendado</strong>
+									<p>El equipo comercial bajó su uso 18%. Recomendamos capacitación específica sobre pipeline y seguimiento.</p>
+								</div>
+							</div>
+						</article>
+
+						<aside class="floating-alert" aria-label="Alerta de adopción">
+							<strong>🚨 Riesgo detectado</strong>
+							<p>3 equipos activos hace 30 días hoy están por debajo del umbral saludable.</p>
+						</aside>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- =========================================================
+		     PROBLEMA
+		     ========================================================= -->
+		<section id="problema" class="section problem-band" aria-labelledby="problem-title">
+			<div class="container">
+				<div class="section-title reveal">
+					<div class="eyebrow">El problema</div>
+					<h2 id="problem-title">
+						El go-live no prueba adopción.
+					</h2>
+					<p class="lede">
+						Una implementación puede verse perfecta el día de entrega. Pero la pregunta importante aparece después: ¿el equipo realmente la está usando?
+					</p>
+				</div>
+
+				<div class="problem-grid">
+					<article class="problem-card reveal delay-1">
+						<div class="icon" aria-hidden="true">👻</div>
+						<h3>No sabes quién entra y quién no.</h3>
+						<p>Hay usuarios activos, usuarios fantasma y equipos que vuelven a sus viejos hábitos. Sin data, todos se ven iguales.</p>
+					</article>
+
+					<article class="problem-card reveal delay-2">
+						<div class="icon" aria-hidden="true">📉</div>
+						<h3>No puedes probar que valió la inversión.</h3>
+						<p>Cuando llega el QBR, la conversación se llena de anécdotas. Falta evidencia para defender ROI.</p>
+					</article>
+
+					<article class="problem-card reveal delay-3">
+						<div class="icon" aria-hidden="true">🎲</div>
+						<h3>Capacitas con intuición.</h3>
+						<p>Sin saber dónde cae la adopción, entrenas a todos igual. Eso consume tiempo y no corrige el problema real.</p>
+					</article>
+				</div>
+			</div>
+		</section>
+
+		<!-- =========================================================
+		     PROPUESTA DE VALOR
+		     ========================================================= -->
+		<section id="producto" class="section" aria-labelledby="value-title">
+			<div class="container">
+				<div class="section-title center reveal">
+					<div class="eyebrow">La propuesta de valor</div>
+					<h2 id="value-title">
+						No vendemos dashboards.
+						<span class="text-red">Vendemos claridad.</span>
+					</h2>
+					<p class="lede">
+						Analytics TWC traduce metadata de uso en decisiones concretas: dónde intervenir, a quién capacitar y cómo defender la inversión en Notion.
+					</p>
+				</div>
+
+				<div class="value-grid">
+					<article class="value-card reveal delay-1" data-number="01">
+						<div class="value-icon" aria-hidden="true">🎯</div>
+						<h3>Mide adopción real</h3>
+						<p>Convierte señales de uso en un score fácil de entender para líderes, operaciones y equipos internos.</p>
+					</article>
+
+					<article class="value-card reveal delay-2" data-number="02">
+						<div class="value-icon" aria-hidden="true">⚠️</div>
+						<h3>Detecta riesgo temprano</h3>
+						<p>Encuentra caídas de uso antes de que el equipo abandone Notion o antes de que el problema llegue al comité.</p>
+					</article>
+
+					<article class="value-card reveal delay-3" data-number="03">
+						<div class="value-icon" aria-hidden="true">🧠</div>
+						<h3>Recomienda acciones</h3>
+						<p>No entrega datos crudos. Entrega lecturas, prioridades y próximos pasos para mejorar adopción.</p>
+					</article>
+
+					<article class="value-card reveal delay-1" data-number="04">
+						<div class="value-icon" aria-hidden="true">💬</div>
+						<h3>Conecta analytics con capacitación</h3>
+						<p>La data define qué entrenar, con quién y cuándo. Menos sesiones genéricas. Más impacto real.</p>
+					</article>
+
+					<article class="value-card reveal delay-2" data-number="05">
+						<div class="value-icon" aria-hidden="true">📊</div>
+						<h3>Hace visible el ROI</h3>
+						<p>Ayuda a justificar licencias, implementación y nuevas fases con evidencia, no percepciones.</p>
+					</article>
+
+					<article class="value-card reveal delay-3" data-number="06">
+						<div class="value-icon" aria-hidden="true">🔐</div>
+						<h3>Respeta la privacidad</h3>
+						<p>Trabaja con metadata de uso. El foco está en comportamiento de adopción, no en leer contenido sensible.</p>
+					</article>
+				</div>
+			</div>
+		</section>
+
+		<!-- =========================================================
+		     FEATURES
+		     ========================================================= -->
+		<section class="section features" aria-labelledby="features-title">
+			<div class="container">
+				<div class="section-title reveal">
+					<div class="eyebrow">Características principales</div>
+					<h2 id="features-title">
+						Todo lo que necesitas para cerrar el loop de adopción.
+					</h2>
+				</div>
+
+				<div class="feature-grid">
+					<article class="feature-card reveal delay-1">
+						<div class="feature-icon" aria-hidden="true">📈</div>
+						<div>
+							<h3>Adoption Score</h3>
+							<p>Un número de 0 a 100 para entender la salud de adopción de tu workspace.</p>
+						</div>
+					</article>
+
+					<article class="feature-card reveal delay-2">
+						<div class="feature-icon" aria-hidden="true">👥</div>
+						<div>
+							<h3>Segmentación de usuarios</h3>
+							<p>Identifica power users, usuarios activos, bajo uso e inactivos.</p>
+						</div>
+					</article>
+
+					<article class="feature-card reveal delay-3">
+						<div class="feature-icon" aria-hidden="true">🚨</div>
+						<div>
+							<h3>Alertas de caída</h3>
+							<p>Detecta cuando un equipo baja su adopción y requiere intervención.</p>
+						</div>
+					</article>
+
+					<article class="feature-card reveal delay-1">
+						<div class="feature-icon" aria-hidden="true">🧩</div>
+						<div>
+							<h3>Dimensiones de uso</h3>
+							<p>Alcance, profundidad, consistencia y colaboración en una lectura simple.</p>
+						</div>
+					</article>
+
+					<article class="feature-card reveal delay-2">
+						<div class="feature-icon" aria-hidden="true">📝</div>
+						<div>
+							<h3>Readouts ejecutivos</h3>
+							<p>Resumen mensual con insights, riesgos y acciones recomendadas.</p>
+						</div>
+					</article>
+
+					<article class="feature-card reveal delay-3">
+						<div class="feature-icon" aria-hidden="true">🎓</div>
+						<div>
+							<h3>Capacitaciones guiadas por data</h3>
+							<p>Entrenamientos diseñados según el comportamiento real del equipo.</p>
+						</div>
+					</article>
+				</div>
+			</div>
+		</section>
+
+		<!-- =========================================================
+		     BENEFICIOS CUANTIFICABLES
+		     ========================================================= -->
+		<section class="section" aria-labelledby="stats-title">
+			<div class="container">
+				<div class="section-title center reveal">
+					<div class="eyebrow">Impacto medible</div>
+					<h2 id="stats-title">
+						Lo que no mides, se abandona.
+					</h2>
+					<p class="lede">
+						Analytics TWC está diseñado para responder la pregunta que más importa después de implementar Notion: ¿la inversión está rindiendo?
+					</p>
+				</div>
+
+				<div class="stats-grid">
+					<article class="stat-card reveal delay-1">
+						<div class="stat-number">30%</div>
+						<p>de licencias SaaS corporativas pueden quedarse sin uso real si nadie mide adopción.</p>
+					</article>
+
+					<article class="stat-card reveal delay-2">
+						<div class="stat-number">70%</div>
+						<p>de transformaciones digitales fallan principalmente por baja adopción del usuario.</p>
+					</article>
+
+					<article class="stat-card reveal delay-3">
+						<div class="stat-number">90</div>
+						<p>días post-implementación son críticos para confirmar si Notion se volvió hábito.</p>
+					</article>
+
+					<article class="stat-card reveal delay-1">
+						<div class="stat-number">4</div>
+						<p>dimensiones simples para leer adopción: alcance, profundidad, consistencia y colaboración.</p>
+					</article>
+				</div>
+			</div>
+		</section>
+
+		<!-- =========================================================
+		     CÓMO FUNCIONA
+		     ========================================================= -->
+		<section id="como-funciona" class="section" aria-labelledby="steps-title">
+			<div class="container">
+				<div class="section-title reveal">
+					<div class="eyebrow">Cómo funciona</div>
+					<h2 id="steps-title">
+						De “creo que lo usan” a “sé exactamente qué está pasando”.
+					</h2>
+				</div>
+
+				<div class="steps-wrap">
+					<div class="steps-grid">
+						<article class="step-card reveal delay-1">
+							<div class="step-number">01</div>
+							<h3>Auditamos tu workspace</h3>
+							<p>Definimos qué señales importan según tu operación, equipos y objetivos de adopción.</p>
+						</article>
+
+						<article class="step-card reveal delay-2">
+							<div class="step-number">02</div>
+							<h3>Medimos patrones de uso</h3>
+							<p>Analizamos metadata de actividad para entender alcance, profundidad, consistencia y colaboración.</p>
+						</article>
+
+						<article class="step-card reveal delay-3">
+							<div class="step-number">03</div>
+							<h3>Generamos el Adoption Score</h3>
+							<p>Convertimos señales dispersas en una lectura ejecutiva fácil de compartir con líderes.</p>
+						</article>
+
+						<article class="step-card reveal delay-1">
+							<div class="step-number">04</div>
+							<h3>Recomendamos acciones</h3>
+							<p>Entregamos próximos pasos: capacitaciones, ajustes del sistema y zonas de riesgo.</p>
+						</article>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- =========================================================
+		     CASOS DE USO / SOCIAL PROOF
+		     ========================================================= -->
+		<section class="section" aria-labelledby="use-cases-title">
+			<div class="container">
+				<div class="section-title reveal">
+					<div class="eyebrow">Casos de uso</div>
+					<h2 id="use-cases-title">
+						Para empresas que ya apostaron por Notion.
+						<span class="text-blue">Ahora toca medir.</span>
+					</h2>
+				</div>
+
+				<div class="use-case-grid">
+					<article class="use-case-card reveal delay-1">
+						<span class="use-case-tag">Operaciones</span>
+						<h3>Detectar equipos que vuelven a hojas de cálculo</h3>
+						<p>Identifica dónde Notion dejó de ser el sistema operativo y vuelve a intervenir antes de perder adopción.</p>
+					</article>
+
+					<article class="use-case-card reveal delay-2">
+						<span class="use-case-tag">People / Enablement</span>
+						<h3>Diseñar capacitaciones por necesidad real</h3>
+						<p>Capacita según comportamiento: bajo uso, poca colaboración, poca profundidad o falta de hábito.</p>
+					</article>
+
+					<article class="use-case-card reveal delay-3">
+						<span class="use-case-tag">Dirección</span>
+						<h3>Defender el ROI de Notion ante liderazgo</h3>
+						<p>Convierte adopción en una conversación ejecutiva con datos, no en una percepción del equipo.</p>
+					</article>
+
+					<article class="use-case-card reveal delay-1">
+						<span class="use-case-tag">Post-implementación</span>
+						<h3>Medir el éxito después del go-live</h3>
+						<p>Evalúa si la implementación realmente se integró al día a día 30, 60 y 90 días después.</p>
+					</article>
+
+					<article class="quote-card reveal delay-2">
+						<blockquote>
+							“Cualquier herramienta sin medición es una apuesta. Cualquier capacitación sin data es intuición.”
+						</blockquote>
+						<cite>— Principio de adopción, The Workflow Company</cite>
+					</article>
+
+					<article class="use-case-card reveal delay-3">
+						<span class="use-case-tag">Crecimiento</span>
+						<h3>Escalar Notion sin perder control</h3>
+						<p>Cuando el equipo crece, necesitas visibilidad: quién usa, quién no y qué áreas necesitan soporte.</p>
+					</article>
+				</div>
+			</div>
+		</section>
+
+		<!-- =========================================================
+		     PAQUETES / PRICING SIN PRECIO
+		     ========================================================= -->
+		<section id="paquetes" class="section pricing" aria-labelledby="pricing-title">
+			<div class="container">
+				<div class="section-title center reveal">
+					<div class="eyebrow">Paquetes</div>
+					<h2 id="pricing-title">
+						Elige el nivel de visibilidad que necesitas.
+					</h2>
+					<p class="lede">
+						Sin precios públicos por ahora. Cada empresa tiene un tamaño, una madurez y un reto de adopción distinto.
+					</p>
+				</div>
+
+				<div class="package-grid">
+					<article class="package-card reveal delay-1">
+						<span class="package-badge">Entrada</span>
+						<h3>Auditoría de adopción</h3>
+						<p>Para empresas que quieren una primera lectura clara de cómo se está usando Notion hoy.</p>
+
+						<ul class="package-list">
+							<li>Diagnóstico puntual del workspace</li>
+							<li>Lectura de adopción por equipos</li>
+							<li>Identificación de riesgos principales</li>
+							<li>Sesión de readout ejecutivo</li>
+						</ul>
+
+						<a class="btn btn-secondary" href="mailto:hola@workflowcompany.co?subject=Quiero%20una%20auditor%C3%ADa%20de%20adopci%C3%B3n%20de%20Notion">
+							Solicitar auditoría
+						</a>
+					</article>
+
+					<article class="package-card featured reveal delay-2">
+						<span class="package-badge">Recomendado</span>
+						<h3>Adoption Intelligence</h3>
+						<p>Para empresas que quieren seguimiento continuo, alertas y recomendaciones mensuales.</p>
+
+						<ul class="package-list">
+							<li>Adoption Score recurrente</li>
+							<li>Alertas de caída de uso</li>
+							<li>Segmentación de usuarios</li>
+							<li>Readout mensual con acciones recomendadas</li>
+							<li>Prioridades de capacitación basadas en data</li>
+						</ul>
+
+						<a class="btn btn-on-dark" href="mailto:hola@workflowcompany.co?subject=Quiero%20medir%20mi%20adopci%C3%B3n%20de%20Notion">
+							Quiero medir mi adopción
+						</a>
+					</article>
+
+					<article class="package-card reveal delay-3">
+						<span class="package-badge">Enterprise</span>
+						<h3>Adoption System</h3>
+						<p>Para organizaciones con múltiples equipos, mayor complejidad y necesidad de acompañamiento estratégico.</p>
+
+						<ul class="package-list">
+							<li>Dashboard y reportes personalizados</li>
+							<li>Capacitaciones trimestrales</li>
+							<li>Soporte prioritario</li>
+							<li>Recomendaciones para rediseño del workspace</li>
+							<li>Acompañamiento a líderes internos</li>
+						</ul>
+
+						<a class="btn btn-secondary" href="mailto:hola@workflowcompany.co?subject=Quiero%20hablar%20sobre%20Analytics%20TWC%20Enterprise">
+							Hablar con TWC
+						</a>
+					</article>
+				</div>
+			</div>
+		</section>
+
+		<!-- =========================================================
+		     FAQ
+		     ========================================================= -->
+		<section id="faq" class="section" aria-labelledby="faq-title">
+			<div class="container-narrow">
+				<div class="section-title center reveal">
+					<div class="eyebrow">FAQ</div>
+					<h2 id="faq-title">
+						Lo que normalmente preguntan antes de medir.
+					</h2>
+				</div>
+
+				<div class="faq-list">
+					<details class="faq-item reveal delay-1">
+						<summary>¿Esto reemplaza el analytics nativo de Notion?</summary>
+						<p>No. Analytics TWC es una capa de interpretación y acción. El foco no es solo ver datos, sino entender qué significan y qué hacer para mejorar adopción.</p>
+					</details>
+
+					<details class="faq-item reveal delay-2">
+						<summary>¿Necesitamos estar en Notion Enterprise?</summary>
+						<p>No necesariamente. El producto está pensado para empresas que ya usan Notion y necesitan visibilidad de adopción, incluso si todavía no están en Enterprise.</p>
+					</details>
+
+					<details class="faq-item reveal delay-3">
+						<summary>¿Van a leer el contenido de nuestras páginas?</summary>
+						<p>El enfoque es trabajar con metadata de uso y patrones de actividad. El objetivo es medir comportamiento de adopción, no revisar contenido privado.</p>
+					</details>
+
+					<details class="faq-item reveal delay-1">
+						<summary>¿Cuándo conviene medir adopción?</summary>
+						<p>Especialmente entre los 30 y 90 días posteriores a una implementación, migración o rediseño importante. También sirve para workspaces maduros que quieren justificar ROI.</p>
+					</details>
+
+					<details class="faq-item reveal delay-2">
+						<summary>¿Qué pasa después del diagnóstico?</summary>
+						<p>Recibes una lectura ejecutiva con riesgos, oportunidades y acciones recomendadas. Desde ahí puedes seguir con seguimiento mensual o capacitaciones específicas.</p>
+					</details>
+
+					<details class="faq-item reveal delay-3">
+						<summary>¿Sirve si mi equipo “sí usa Notion”?</summary>
+						<p>Sí. De hecho, muchas empresas descubren que el problema no es uso total, sino uso desigual: algunos equipos adoptan profundo y otros apenas sobreviven.</p>
+					</details>
+				</div>
+			</div>
+		</section>
+
+		<!-- =========================================================
+		     CTA FINAL
+		     ========================================================= -->
+		<section class="final-cta" aria-labelledby="final-cta-title">
+			<div class="container">
+				<div class="final-cta-inner reveal">
+					<h2 id="final-cta-title">
+						Deja de asumir. Mide.
+					</h2>
+					<p>
+						Si tu empresa ya invirtió en Notion, el siguiente paso no es construir otra vista. Es saber si el sistema realmente está funcionando.
+					</p>
+
+					<div class="cta-row">
+						<a class="btn btn-on-dark" href="mailto:hola@workflowcompany.co?subject=Quiero%20medir%20mi%20adopci%C3%B3n%20de%20Notion">
+							Quiero medir mi adopción
+							<span aria-hidden="true">→</span>
+						</a>
+						<a class="btn btn-secondary" href="#paquetes">
+							Ver paquetes
+						</a>
+					</div>
+
+					<p class="microcopy" style="color: rgba(255,255,255,0.72);">
+						Para equipos de operaciones, liderazgo, enablement y empresas que ya usan Notion como sistema operativo.
+					</p>
+				</div>
+			</div>
+		</section>
+	</main>
+
+	<!-- =========================================================
+	     FOOTER
+	     ========================================================= -->
+	<footer class="site-footer" aria-label="Footer">
+		<div class="container">
+			<div class="footer-grid">
+				<div class="footer-brand">
+					<a class="logo" href="#top" aria-label="Analytics TWC - volver al inicio">
+						<span class="logo-mark" aria-hidden="true">W</span>
+						<span class="logo-text">
+							<span style="color: #fff;">Analytics TWC</span>
+							<span style="color: #EF003C;">The Workflow Company</span>
+						</span>
+					</a>
+
+					<p>
+						Analytics para medir adopción real de Notion, detectar riesgo y convertir datos de uso en decisiones de capacitación, ROI y crecimiento.
+					</p>
+
+					<a href="mailto:hola@workflowcompany.co" class="btn btn-primary">
+						hola@workflowcompany.co
+					</a>
+				</div>
+
+				<div class="footer-links">
+					<div class="footer-col">
+						<h4>Producto</h4>
+						<ul>
+							<li><a href="#producto">Propuesta de valor</a></li>
+							<li><a href="#como-funciona">Cómo funciona</a></li>
+							<li><a href="#paquetes">Paquetes</a></li>
+							<li><a href="#faq">FAQ</a></li>
+						</ul>
+					</div>
+
+					<div class="footer-col">
+						<h4>Casos</h4>
+						<ul>
+							<li><a href="#problema">Adopción post-implementación</a></li>
+							<li><a href="#producto">ROI de Notion</a></li>
+							<li><a href="#producto">Capacitación con data</a></li>
+							<li><a href="#producto">Riesgo de abandono</a></li>
+						</ul>
+					</div>
+
+					<div class="footer-col">
+						<h4>TWC</h4>
+						<ul>
+							<li><a href="mailto:hola@workflowcompany.co">Contacto</a></li>
+							<li><a href="#" aria-label="LinkedIn de The Workflow Company">LinkedIn</a></li>
+							<li><a href="#" aria-label="Sitio web de The Workflow Company">Website</a></li>
+							<li><a href="#" aria-label="Política de privacidad">Privacidad</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+
+			<div class="footer-bottom">
+				<span>© 2026 The Workflow Company · Hecho en Colombia 🇨🇴</span>
+				<span>Analytics TWC · Beta privada</span>
+			</div>
+		</div>
+	</footer>
+
+	<!-- =========================================================
+	     GUÍA RÁPIDA DE PERSONALIZACIÓN
+	     =========================================================
+	     1. Cambiar emails / CTAs:
+	        Busca "mailto:hola@workflowcompany.co" y reemplázalo por el link real
+	        de demo, formulario o calendario.
+
+	     2. Cambiar colores:
+	        Edita las variables --twc-red, --twc-blue y --twc-gray en :root.
+
+	     3. Cambiar paquetes:
+	        Edita las cards dentro de la sección #paquetes.
+
+	     4. Cambiar métricas:
+	        Edita la sección "Beneficios cuantificables" y los números de .stat-number.
+
+	     5. Cambiar mockup:
+	        Edita los valores del dashboard en la sección HERO:
+	        Adoption Score, dimensiones, insight y alerta flotante.
+
+	     6. Si tienes archivo real de Chillax:
+	        Agrega @font-face apuntando al archivo local y mantén --font-heading.
+	-->
+</body>
+</html>
